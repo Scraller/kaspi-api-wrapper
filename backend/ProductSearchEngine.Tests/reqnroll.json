@@ -1,0 +1,30 @@
+{
+  "$schema": "https://schemas.reqnroll.net/reqnroll-config-1.0.0.json",
+  
+  "language": {
+    "feature": "en-us"
+  },
+  
+  "unitTestProvider": {
+    "name": "nunit"
+  },
+  
+  "generator": {
+    "allowDebugGeneratedFiles": false,
+    "allowRowTests": true,
+    "generateAsyncTests": true,
+    "addNonParallelizableMarkerForTags": []
+  },
+  
+  "runtime": {
+    "stopAtFirstError": false,
+    "missingOrPendingStepsOutcome": "Pending"
+  },
+  
+  "trace": {
+    "traceSuccessfulSteps": true,
+    "traceTimings": true,
+    "minTracedDuration": "0:0:0.1",
+    "stepDefinitionSkeletonStyle": "RegexAttribute"
+  }
+}

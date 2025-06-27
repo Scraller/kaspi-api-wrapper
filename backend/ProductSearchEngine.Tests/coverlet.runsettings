@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<RunSettings>
+  <!-- Configure parallel test execution -->
+  <RunConfiguration>
+    <MaxCpuCount>2</MaxCpuCount> <!-- Use 2 cores to avoid overwhelming the system -->
+    <TestSessionTimeout>300000</TestSessionTimeout> <!-- 5 minutes timeout -->
+    <TreatNoTestsAsError>false</TreatNoTestsAsError>
+  </RunConfiguration>
+
+  <!-- NUnit specific settings for parallel execution -->
+  <NUnit>
+    <NumberOfTestWorkers>2</NumberOfTestWorkers> <!-- Use 2 workers instead of all cores -->
+    <DefaultTimeout>60000</DefaultTimeout> <!-- 60 seconds default timeout -->
+    <WorkDirectory>TestResults</WorkDirectory>
+    <InternalTraceLevel>Off</InternalTraceLevel>
+    <RandomSeed>1234</RandomSeed>
+    <Verbosity>1</Verbosity>
+    <StopOnError>false</StopOnError>
+  </NUnit>
+
+  <DataCollectionRunSettings>
+    <DataCollectors>
+      <DataCollector friendlyName="XPlat code coverage">
+        <Configuration>
+          <Format>cobertura,json,lcov,opencover</Format>
+          <Exclude>[*.Tests]*,[*.Test]*</Exclude>
+          <ExcludeByAttribute>Obsolete,GeneratedCodeAttribute,CompilerGeneratedAttribute</ExcludeByAttribute>
+          <ExcludeByFile>**/bin/**/*,**/obj/**/*</ExcludeByFile>
+          <IncludeDirectory>../</IncludeDirectory>
+          <SingleHit>false</SingleHit>
+          <UseSourceLink>true</UseSourceLink>
+          <IncludeTestAssembly>false</IncludeTestAssembly>
+          <SkipAutoProps>true</SkipAutoProps>
+        </Configuration>
+      </DataCollector>
+    </DataCollectors>
+  </DataCollectionRunSettings>
+</RunSettings>

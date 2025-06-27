@@ -1,0 +1,163 @@
+### Product Search Engine API Examples
+### Enhanced Swagger Documentation available at: https://localhost:7096/swagger
+
+###
+# Health Check
+GET {{baseUrl}}/api/test/health
+
+###
+# Search Products - Basic Search
+GET {{baseUrl}}/api/products/search?query=iPhone 15
+
+###
+# Search Products - Advanced Search with Filters
+GET {{baseUrl}}/api/products/search?query=Samsung Galaxy&brand=Samsung&minPrice=500&maxPrice=1500&marketplace=kaspi&page=1&pageSize=10
+
+###
+# Get Product by ID
+GET {{baseUrl}}/api/products/64f1a2b3c4d5e6f7890abcde
+
+###
+# Get Products by Category
+GET {{baseUrl}}/api/products/category/smartphones?page=1&pageSize=20
+
+###
+# Category Management
+###
+
+# Get All Kaspi Categories with Hierarchy
+GET {{baseUrl}}/api/categories/kaspi?includeSubcategories=true
+
+###
+# Get Top-Level Categories Only
+GET {{baseUrl}}/api/categories/kaspi/top-level
+
+###
+# Get Subcategories for a Specific Parent Category
+GET {{baseUrl}}/api/categories/kaspi/phones/subcategories
+
+###
+# Search Categories by Name
+GET {{baseUrl}}/api/categories/kaspi/search?query=phone&includeSubcategories=false
+
+###
+# Get Categories with Products (minimum product count)
+GET {{baseUrl}}/api/categories/kaspi/with-products?minProductCount=100&includeSubcategories=false
+
+###
+# Advanced Subcategory Scanning
+###
+
+# Scan Specific Category for Subcategories (Single Level)
+GET {{baseUrl}}/api/categories/kaspi/smartphones%20and%20gadgets/scan-subcategories?maxDepth=1&recursive=false
+
+###
+# Scan Specific Category for Subcategories (Recursive - Multiple Levels)
+GET {{baseUrl}}/api/categories/kaspi/smartphones%20and%20gadgets/scan-subcategories?maxDepth=3&recursive=true
+
+###
+# Scan Fashion Category for Subcategories
+GET {{baseUrl}}/api/categories/kaspi/fashion/scan-subcategories?maxDepth=2&recursive=false
+
+###
+# Get Complete Category Hierarchy Tree
+GET {{baseUrl}}/api/categories/kaspi/smartphones%20and%20gadgets/complete-hierarchy?maxDepth=5
+
+###
+# Bulk Scan Multiple Categories for Subcategories
+POST {{baseUrl}}/api/categories/kaspi/bulk-scan-subcategories?maxDepth=2&recursive=false
+Content-Type: application/json
+
+[
+    "smartphones%20and%20gadgets",
+    "fashion",
+    "beauty%20care",
+    "home"
+]
+
+###
+# Scrape Products from Kaspi
+POST {{baseUrl}}/api/scrapers/kaspi
+Content-Type: application/json
+
+{
+  "query": "iPhone 15 Pro",
+  "maxPages": 3,
+  "useCache": true
+}
+
+###
+# Test Scraper Diagnostics
+GET {{baseUrl}}/api/scrapers/diagnostics/test/kaspi/smartphones
+
+###
+# Get Scraper Performance Stats
+GET {{baseUrl}}/api/scrapers/performance/stats
+
+###
+# Get Detailed Performance Metrics
+GET {{baseUrl}}/api/scrapers/performance/metrics
+
+###
+# Price Alert Management
+###
+
+# Create Price Alert
+POST {{baseUrl}}/api/pricealerts
+Content-Type: application/json
+
+{
+  "productId": "64f1a2b3c4d5e6f7890abcde",
+  "targetPrice": 1200.00,
+  "userId": "user123",
+  "isActive": true
+}
+
+###
+# Get Price Alerts for User
+GET {{baseUrl}}/api/pricealerts/user/user123
+
+###
+# Get Price Alert by ID
+GET {{baseUrl}}/api/pricealerts/64f1a2b3c4d5e6f7890abcde
+
+###
+# Update Price Alert
+PUT {{baseUrl}}/api/pricealerts/64f1a2b3c4d5e6f7890abcde
+Content-Type: application/json
+
+{
+  "id": "64f1a2b3c4d5e6f7890abcde",
+  "productId": "64f1a2b3c4d5e6f7890abcde",
+  "targetPrice": 1100.00,
+  "userId": "user123",
+  "isActive": true
+}
+
+###
+# Delete Price Alert
+DELETE {{baseUrl}}/api/pricealerts/64f1a2b3c4d5e6f7890abcde
+
+###
+# User Alert Management
+###
+
+# Subscribe to Product Updates
+POST {{baseUrl}}/api/useralerts/subscribe
+Content-Type: application/json
+
+{
+  "userId": "user123",
+  "productId": "64f1a2b3c4d5e6f7890abcde",
+  "alertType": "PriceChange"
+}
+
+###
+# Get User's Alert Subscriptions
+GET {{baseUrl}}/api/useralerts/user123/subscriptions
+
+###
+# Unsubscribe from Product Updates
+DELETE {{baseUrl}}/api/useralerts/user123/product/64f1a2b3c4d5e6f7890abcde
+
+@baseUrl = https://localhost:7096

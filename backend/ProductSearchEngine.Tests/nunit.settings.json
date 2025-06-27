@@ -1,0 +1,16 @@
+{
+  "TestOutput": {
+    "StopOnError": false,
+    "Verbosity": 1
+  },
+  "TestParameters": {
+    "NumberOfTestWorkers": -1,
+    "DefaultTimeout": 60000,
+    "RandomSeed": 1234,
+    "InternalTraceLevel": "Off",
+    "WorkDirectory": "TestResults"
+  },
+  "Where": {
+    "DefaultTestNamePattern": ""
+  }
+}
