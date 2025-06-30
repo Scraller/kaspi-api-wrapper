@@ -117,8 +117,65 @@ FakesAssemblies/
 # GhostDoc plugin setting file
 *.GhostDoc.xml
 
-# Node.js Tools for Visual Studio
+# Node.js and npm (global patterns)
 .ntvs_analysis.dat
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+package-lock.json  # Uncomment if you want to ignore lock files
+
+# Frontend (Next.js/React)
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+.pnpm-debug.log*
+.npm/
+.yarn/
+.pnpm/
+
+# Next.js build outputs
+.next/
+out/
+dist/
+build/
+
+# Environment files (keep these private!)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Testing and coverage
+coverage/
+cypress/videos/
+cypress/screenshots/
+.nyc_output/
+playwright-report/
+test-results/
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Deployment and hosting
+.vercel/
+.turbo/
+
+# Storybook
+storybook-static/
+
+# Linting and formatting
+.eslintcache
+
+# Build tools and bundlers
+.swc/
 
 # Visual Studio 6 build log
 *.plg
@@ -157,7 +214,7 @@ TestResults/
 *.coverage
 *.coveragexml
 
-# Coverage reports
+# Coverage reports (general)
 coverage/
 *.lcov
 
@@ -166,13 +223,6 @@ test-results/
 
 # Benchmarks
 BenchmarkDotNet.Artifacts/
-
-# Local development
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
 
 # Database
 *.db
@@ -190,48 +240,34 @@ docker-compose.override.yml
 # macOS
 .DS_Store
 
-# Frontend (Next.js/React)
-frontend/node_modules/
-frontend/.next/
-frontend/out/
-frontend/dist/
-frontend/build/
-frontend/.env.local
-frontend/.env.development.local
-frontend/.env.test.local
-frontend/.env.production.local
-frontend/.env
-frontend/coverage/
-frontend/cypress/videos/
-frontend/cypress/screenshots/
-frontend/.nyc_output/
-frontend/*.tsbuildinfo
-frontend/next-env.d.ts
-frontend/.vercel/
-frontend/.turbo/
-frontend/storybook-static/
-frontend/.eslintcache
-frontend/playwright-report/
-frontend/test-results/
-frontend/.swc/
-frontend/.vscode/settings.json
-frontend/.idea/
+# Environment variables and secrets (IMPORTANT!)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.*
+appsettings.local.json
+appsettings.secrets.json
+secrets.json
 
-# PWA specific
-frontend/sw.js.map
-frontend/workbox-*.js
-frontend/sw-register.js
-
-# Build analysis and monitoring
-frontend/.bundle-analyzer/
-frontend/stats.html
-frontend/bundle-report.html
-frontend/.size-limit.json
-
-# IDE specific
+# IDE specific files
+.vscode/settings.json
+.vscode/launch.json
+.idea/workspace.xml
+.idea/tasks.xml
 *.swp
 *.swo
 *~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
 
 # Temporary files
 *.tmp
@@ -243,38 +279,11 @@ snapshots/
 analysis/
 documentation/temp/
 
-# Secrets and configuration
-appsettings.local.json
-appsettings.secrets.json
-*.env
-.env.*
-secrets.json
-
-# Personal development files
-.vscode/settings.json
-.vscode/launch.json
-.idea/workspace.xml
-.idea/tasks.xml
-
-# OS generated files
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
-
-# Test coverage results
-TestResults/
-coverage/
-*.coverage
-*.coveragexml
-
 # Personal notes and todos
 TODO.md
 NOTES.md
 personal/
+/agentmode_artifacts
 
 # Temporary API response files
 temp_responses/

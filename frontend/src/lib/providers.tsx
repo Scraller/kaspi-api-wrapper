@@ -2,6 +2,7 @@
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useState } from 'react';
+import { Toaster } from 'sonner';
 
 /**
  * React Query providers component
@@ -36,6 +37,17 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
       {children}
+      <Toaster 
+        position="top-right"
+        toastOptions={{
+          duration: 4000,
+          style: {
+            background: 'white',
+            border: '1px solid #e5e7eb',
+            borderRadius: '8px',
+          },
+        }}
+      />
     </QueryClientProvider>
   );
 }

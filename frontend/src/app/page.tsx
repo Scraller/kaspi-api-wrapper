@@ -38,7 +38,7 @@ export default function HomePage() {
           placeholder="Search for products on Kaspi.kz..."
         />
         <p className="text-sm text-gray-500 mt-2 text-center">
-          Try searching for "iPhone", "Samsung Galaxy", or "MacBook"
+          Try searching for &ldquo;iPhone&rdquo;, &ldquo;Samsung Galaxy&rdquo;, or &ldquo;MacBook&rdquo;
         </p>
       </div>
 

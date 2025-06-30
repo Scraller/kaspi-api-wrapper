@@ -8,9 +8,7 @@ interface SearchResultsProps {
   searchResults?: ProductSearchResponse;
   isLoading?: boolean;
   error?: Error | null;
-  onSubscribe?: (productId: string) => void;
   onLoadMore?: () => void;
-  subscribedProductIds?: string[];
 }
 
 /**
@@ -22,9 +20,7 @@ export function SearchResults({
   searchResults, 
   isLoading, 
   error,
-  onSubscribe,
-  onLoadMore,
-  subscribedProductIds = []
+  onLoadMore
 }: SearchResultsProps) {
   // Loading state
   if (isLoading) {
@@ -85,7 +81,7 @@ export function SearchResults({
         <div className="text-sm text-muted-foreground">
           Найдено {searchResults?.totalCount || searchResults?.products?.length || 0} товаров
           {searchResults?.searchQuery && (
-            <span> по запросу "{searchResults.searchQuery}"</span>
+            <span> по запросу &ldquo;{searchResults.searchQuery}&rdquo;</span>
           )}
         </div>
         
@@ -102,8 +98,6 @@ export function SearchResults({
           <ProductCard
             key={product.id}
             product={product}
-            onSubscribe={onSubscribe}
-            isSubscribed={subscribedProductIds.includes(product.id)}
             showRealTimePrice={index < 4} // Show real-time price for first 4 results to avoid too many API calls
             showImageCarousel={index < 6} // Show image carousel for first 6 results
           />

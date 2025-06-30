@@ -11,6 +11,9 @@
     "test": "jest"
   },
   "dependencies": {
+    "@radix-ui/react-dialog": "^1.1.14",
+    "@radix-ui/react-label": "^2.1.7",
+    "@radix-ui/react-select": "^2.2.5",
     "@radix-ui/react-slot": "^1.2.3",
     "@tanstack/react-query": "^5.45.0",
     "class-variance-authority": "^0.7.1",
@@ -20,8 +23,9 @@
     "next-themes": "^0.3.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "sonner": "^2.0.5",
     "tailwind-merge": "^2.6.0",
-    "zustand": "^4.5.4"
+    "zustand": "^4.5.7"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.6",

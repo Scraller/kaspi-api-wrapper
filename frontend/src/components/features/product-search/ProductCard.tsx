@@ -3,18 +3,18 @@ import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ProductSummaryResponse } from '@/types';
-import { Heart, ExternalLink, Star, TrendingDown } from 'lucide-react';
+import { ExternalLink, Star, TrendingDown } from 'lucide-react';
 import { getOptimizedImageUrl } from '@/utils/imageUtils';
 import { useBestPrice } from '@/hooks/useBestPrice';
 import { useProductGallery } from '@/hooks/useProductGallery';
 import { ImageCarousel } from '@/components/common/ImageCarousel';
+import { SubscribeButton } from '@/components/features/subscription/SubscribeButton';
 
 interface ProductCardProps {
   product: ProductSummaryResponse;
-  onSubscribe?: (productId: string) => void;
-  isSubscribed?: boolean;
   showRealTimePrice?: boolean; // New prop to control real-time price fetching
   showImageCarousel?: boolean; // New prop to control image carousel
+  priceThreshold?: number; // Price threshold for subscription
 }
 
 /**
@@ -24,10 +24,9 @@ interface ProductCardProps {
  */
 export function ProductCard({ 
   product, 
-  onSubscribe, 
-  isSubscribed = false, 
   showRealTimePrice = false,
-  showImageCarousel = false
+  showImageCarousel = false,
+  priceThreshold
 }: ProductCardProps) {
   // Fetch real-time best price if enabled
   const bestPrice = useBestPrice(product.id, showRealTimePrice);
@@ -57,16 +56,6 @@ export function ProductCard({
       currency: currency,
       minimumFractionDigits: 0,
     }).format(price);
-  };
-
-  /**
-   * Handle subscribe button click
-   * Prevents action if no handler provided
-   */
-  const handleSubscribe = () => {
-    if (onSubscribe) {
-      onSubscribe(product.id);
-    }
   };
 
   /**
@@ -163,17 +152,12 @@ export function ProductCard({
 
       <CardFooter className="p-4 pt-0 flex gap-2">
         {/* Subscribe Button */}
-        {onSubscribe && (
-          <Button
-            variant={isSubscribed ? "default" : "outline"}
-            size="sm"
-            onClick={handleSubscribe}
-            className="flex-1"
-          >
-            <Heart className={`h-4 w-4 mr-1 ${isSubscribed ? 'fill-current' : ''}`} />
-            {isSubscribed ? 'Отслеживается' : 'Отслеживать'}
-          </Button>
-        )}
+        <SubscribeButton
+          product={product}
+          priceThreshold={priceThreshold}
+          size="sm"
+          className="flex-1"
+        />
 
         {/* External Link - opens product on Kaspi.kz */}
         <Button 

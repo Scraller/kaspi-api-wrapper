@@ -3,15 +3,13 @@
 import { SearchBar } from '@/components/features/product-search/SearchBar';
 import { SearchResults } from '@/components/features/product-search/SearchResults';
 import { useSearch } from '@/hooks/useSearch';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 
 /**
- * Search page component - dedicated page for product search functionality
- * Combines SearchBar and SearchResults with state management
- * Provides clean URL structure for search operations
+ * Search component that uses URL parameters
  */
-export default function SearchPage() {
+function SearchPageContent() {
   const { searchResults, isSearching, executeSearch } = useSearch();
   const [currentPage, setCurrentPage] = useState(0);
   const searchParams = useSearchParams();
@@ -32,15 +30,6 @@ export default function SearchPage() {
     setCurrentPage(0);
     executeSearch({ text: query });
     console.log('Search executed:', query);
-  };
-
-  /**
-   * Handle subscription to product from search results
-   * This will be implemented in Iteration 3 with localStorage
-   */
-  const handleSubscribe = (productId: string) => {
-    console.log('Subscribe to product:', productId);
-    // TODO: Implement in Iteration 3
   };
 
   /**
@@ -78,10 +67,21 @@ export default function SearchPage() {
         searchResults={searchResults.data}
         isLoading={isSearching}
         error={searchResults.error}
-        onSubscribe={handleSubscribe}
         onLoadMore={searchResults.data?.hasNextPage ? handleLoadMore : undefined}
-        subscribedProductIds={[]} // TODO: Get from localStorage in Iteration 3
       />
     </div>
+  );
+}
+
+/**
+ * Search page component - dedicated page for product search functionality
+ * Combines SearchBar and SearchResults with state management
+ * Provides clean URL structure for search operations
+ */
+export default function SearchPage() {
+  return (
+    <Suspense fallback={<div>Loading search...</div>}>
+      <SearchPageContent />
+    </Suspense>
   );
 }
