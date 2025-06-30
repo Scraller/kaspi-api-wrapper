@@ -1,0 +1,35 @@
+{
+  "name": "kaspi-price-tracker-frontend",
+  "version": "1.0.0",
+  "description": "Frontend application for tracking product prices and sending alerts.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "test": "jest"
+  },
+  "dependencies": {
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "axios": "^0.21.1",
+    "tailwindcss": "^2.2.19"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-next": "latest",
+    "jest": "^27.0.6",
+    "ts-jest": "^27.0.6",
+    "typescript": "^4.4.4"
+  },
+  "keywords": [
+    "price-tracker",
+    "frontend",
+    "react",
+    "nextjs"
+  ],
+  "author": "Your Name",
+  "license": "MIT"
+}
