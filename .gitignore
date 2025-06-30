@@ -80,6 +80,15 @@ ClientBin/
 *.pfx
 *.publishsettings
 node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+.pnpm-debug.log*
+.npm/
+.yarn/
+.pnpm/
 orleans.codegen.cs
 
 # RIA/Silverlight projects
@@ -181,13 +190,43 @@ docker-compose.override.yml
 # macOS
 .DS_Store
 
-# Frontend (Vite/React)
+# Frontend (Next.js/React)
 frontend/node_modules/
+frontend/.next/
+frontend/out/
 frontend/dist/
+frontend/build/
 frontend/.env.local
 frontend/.env.development.local
 frontend/.env.test.local
 frontend/.env.production.local
+frontend/.env
+frontend/coverage/
+frontend/cypress/videos/
+frontend/cypress/screenshots/
+frontend/.nyc_output/
+frontend/*.tsbuildinfo
+frontend/next-env.d.ts
+frontend/.vercel/
+frontend/.turbo/
+frontend/storybook-static/
+frontend/.eslintcache
+frontend/playwright-report/
+frontend/test-results/
+frontend/.swc/
+frontend/.vscode/settings.json
+frontend/.idea/
+
+# PWA specific
+frontend/sw.js.map
+frontend/workbox-*.js
+frontend/sw-register.js
+
+# Build analysis and monitoring
+frontend/.bundle-analyzer/
+frontend/stats.html
+frontend/bundle-report.html
+frontend/.size-limit.json
 
 # IDE specific
 *.swp

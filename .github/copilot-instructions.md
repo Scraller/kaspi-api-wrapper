@@ -1,5 +1,9 @@
 # Copilot Instructions: Kaspi Price Tracker Frontend MVP Development
 
+## Main Rules:
+- Refer to context7 MCP for dependencies and libraries
+- Write comments in functions, which help you (agent) to understand the importance of the function/feature.
+
 ## Context Overview
 You are developing a **Next.js 14 + TypeScript** frontend for a Kaspi.kz price tracking application. The MVP focuses on **anonymous users** using **localStorage** for 24-hour product subscriptions with **browser notifications**.
 
@@ -157,7 +161,7 @@ src/
 ├── components/
 │   └── features/
 │       └── product-search/
-│           ├── SearchBar.tsx      # Search input with autocomplete
+│           ├── SearchBar.tsx      # Search input (manual search only)
 │           ├── SearchResults.tsx  # Grid of search results
 │           └── ProductCard.tsx    # Individual product display
 ├── hooks/
@@ -187,6 +191,13 @@ export const searchProducts = async (query: string, page = 0) => {
 };
 ```
 
+**Search Implementation Notes**:
+- **Manual Search Only**: Users must click search button or press Enter
+- **No Autocomplete**: Too heavy for API performance and causes timeouts
+- **No Real-time Search**: API response time makes live search impractical
+- **No Popular/Trending**: Feature scope limited to core price tracking functionality
+- **Debouncing**: Only applied to prevent double-clicks, not for live search
+
 **Acceptance Criteria**:
 - [x] Search bar accepts user input
 - [x] API requests to backend work correctly
@@ -194,6 +205,7 @@ export const searchProducts = async (query: string, page = 0) => {
 - [x] Loading spinner during search
 - [x] Error handling for failed requests
 - [x] Product cards show image, name, price, merchant
+- [x] Manual search trigger (button/Enter key)
 
 ---
 
@@ -605,7 +617,8 @@ export const useSubscriptionStore = create<SubscriptionStore>((set) => ({
 - Log errors for debugging
 
 ### 3. Performance Considerations
-- Debounce search input (300ms)
+- **Manual search only** - No debounced search-as-you-type due to API performance
+- **No autocomplete** - API response times make live suggestions impractical
 - Implement virtual scrolling for large lists
 - Use React.memo for expensive components
 - Optimize images with Next.js Image component
@@ -656,7 +669,8 @@ NODE_ENV=production
 - **Cross-tab sync**: Use storage event listeners
 
 ### Performance Issues
-- **Slow search**: Implement debouncing and caching
+- **API limitations**: Backend search API has ~3-4 second response times, making real-time features impractical
+- **No live search**: Manual search only due to API performance constraints
 - **Large bundle**: Use dynamic imports and code splitting
 - **Memory leaks**: Clean up intervals and event listeners
 

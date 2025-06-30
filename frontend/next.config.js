@@ -1,7 +1,7 @@
 module.exports = {
   reactStrictMode: true,
   images: {
-    domains: ['kaspi.kz'], // Add any other domains you plan to use for images
+    domains: ['kaspi.kz', 'resources.cdn-kaspi.kz'], // Add Kaspi.kz image domains
   },
   env: {
     API_URL: process.env.API_URL || 'http://localhost:5000/api', // Set your API URL here
