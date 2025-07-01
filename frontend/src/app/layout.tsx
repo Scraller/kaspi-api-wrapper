@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import Header from '@/components/layout/Header'
 import { Providers } from '@/lib/providers'
+import PricePollingManagerWrapper from '@/components/features/notifications/PricePollingManagerWrapper'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -29,6 +30,8 @@ export default function RootLayout({
               <p>&copy; {new Date().getFullYear()} Kaspi Price Tracker. All rights reserved.</p>
             </div>
           </footer>
+          {/* Price polling manager runs in background */}
+          <PricePollingManagerWrapper autoStart={true} />
         </Providers>
       </body>
     </html>

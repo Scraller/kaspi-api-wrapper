@@ -1,4 +1,20 @@
 // Subscription types for anonymous localStorage-based subscriptions
+export interface PriceHistoryEntry {
+  timestamp: Date;
+  price: number;
+  merchantName?: string;
+  merchantId?: string;
+  merchantPhone?: string;
+  merchantUrl?: string;
+}
+
+export interface MerchantInfo {
+  id: string;
+  name: string;
+  phone?: string;
+  url?: string;
+}
+
 export interface AnonymousSubscription {
   productId: string;
   productName: string;
@@ -10,8 +26,12 @@ export interface AnonymousSubscription {
   lastCheckedPrice?: number;
   priceChange?: 'increase' | 'decrease' | 'no_change';
   merchantName?: string;
+  merchantId?: string;
+  merchantPhone?: string;
+  merchantUrl?: string;
   availability: 'in_stock' | 'out_of_stock';
   kaspiUrl?: string;
+  priceHistory?: PriceHistoryEntry[]; // Store price changes over time
 }
 
 export interface SubscriptionLimits {

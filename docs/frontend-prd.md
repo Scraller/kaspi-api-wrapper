@@ -382,7 +382,7 @@ volumes:
 #### 6.1.2 Environment Configuration
 ```bash
 # .env.local
-NEXT_PUBLIC_API_URL=http://localhost:5137
+NEXT_PUBLIC_API_URL=http://localhost:5147
 NODE_ENV=development
 
 # Phase 2 variables

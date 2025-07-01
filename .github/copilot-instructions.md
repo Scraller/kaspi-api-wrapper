@@ -130,7 +130,7 @@ src/
 **Environment Setup**:
 ```bash
 # .env.local
-NEXT_PUBLIC_API_URL=http://localhost:5137
+NEXT_PUBLIC_API_URL=http://localhost:5147
 ```
 
 **Acceptance Criteria**:
@@ -638,7 +638,7 @@ export const useSubscriptionStore = create<SubscriptionStore>((set) => ({
 ## Environment Variables
 ```bash
 # .env.local (development)
-NEXT_PUBLIC_API_URL=http://localhost:5137
+NEXT_PUBLIC_API_URL=http://localhost:5147
 NODE_ENV=development
 
 # .env.production  

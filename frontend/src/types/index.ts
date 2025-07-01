@@ -40,9 +40,13 @@ export interface ProductOffer {
   price: number;
   currency: string;
   merchantName: string;
-  merchantId: string;
   availability: "in_stock" | "out_of_stock";
   deliveryOptions: string[];
+  // Additional fields from backend
+  deliveryInfo?: string;
+  rating?: number;
+  reviewCount?: number;
+  url?: string;
 }
 
 export interface SpecificationGroup {
@@ -97,6 +101,35 @@ export interface User {
     id: string;
     email: string;
     subscribedProducts: string[];
+}
+
+// Merchant API Models
+export interface MerchantDetailResponse {
+  id: string;
+  name: string;
+  description?: string;
+  rating?: number;
+  reviewCount?: number;
+  productCount: number;
+  isVerified: boolean;
+  contactInfo?: MerchantContactInfo;
+  categories: string[];
+  operationalInfo?: MerchantOperationalInfo;
+  establishedDate?: string;
+  logoUrl?: string;
+}
+
+export interface MerchantContactInfo {
+  website?: string;
+  phone?: string;
+  email?: string;
+  address?: string;
+}
+
+export interface MerchantOperationalInfo {
+  isActive: boolean;
+  deliveryOptions: string[];
+  paymentMethods: string[];
 }
 
 export interface ApiResponse<T> {

@@ -1,4 +1,4 @@
-import { ProductSearchResponse, ProductDetailResponse, SearchRequest, HierarchicalCategoryInfo } from '@/types';
+import { ProductSearchResponse, ProductDetailResponse, SearchRequest, HierarchicalCategoryInfo, MerchantDetailResponse } from '@/types';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5147';
 
@@ -108,5 +108,26 @@ export const healthCheck = async (): Promise<{ status: string }> => {
     return result;
   } else {
     throw new Error(result.message || 'Health check failed');
+  }
+};
+
+/**
+ * Get detailed merchant information by merchant ID
+ * Used for fetching phone numbers and contact details
+ */
+export const getMerchantDetails = async (merchantId: string): Promise<MerchantDetailResponse> => {
+  const response = await fetch(`${API_BASE_URL}/api/merchants/${encodeURIComponent(merchantId)}`);
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch merchant details: ${response.status} ${response.statusText}`);
+  }
+
+  const result = await response.json();
+  
+  // Backend returns wrapped response with data field
+  if (result.success && result.data) {
+    return result.data;
+  } else {
+    throw new Error(result.message || 'Failed to fetch merchant details');
   }
 };

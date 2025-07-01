@@ -8,7 +8,9 @@ import { RefreshCw, Plus, AlertCircle, Clock, Bell } from 'lucide-react';
 import { StatsCards } from '@/components/features/dashboard/StatsCards';
 import { WatchlistGrid } from '@/components/features/dashboard/WatchlistGrid';
 import { EmptyState } from '@/components/features/dashboard/EmptyState';
+import { SettingsModal } from '@/components/features/settings/SettingsModal';
 import { useWatchlist } from '@/hooks/useWatchlist';
+import { usePricePolling } from '@/hooks/usePricePolling';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
@@ -31,6 +33,13 @@ export default function DashboardPage() {
     clearError,
     storeStats,
   } = useWatchlist();
+
+  const {
+    isActive: isPollingActive,
+    timeRemainingText,
+    manualCheck,
+    isChecking,
+  } = usePricePolling();
 
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
@@ -156,6 +165,43 @@ export default function DashboardPage() {
         {/* Statistics Cards */}
         {!isEmpty && (
           <StatsCards subscriptions={subscriptions} />
+        )}
+
+        {/* Price Monitoring Status Bar */}
+        {!isEmpty && (
+          <div className="mb-6">
+            <Card className="border-blue-200 bg-blue-50 dark:bg-blue-900/20 dark:border-blue-800">
+              <CardContent className="p-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2">
+                      <div className={`h-2 w-2 rounded-full ${isPollingActive ? 'bg-green-500 animate-pulse' : 'bg-gray-400'}`} />
+                      <span className="text-sm font-medium text-blue-800 dark:text-blue-200">
+                        {isPollingActive ? 'Monitoring Active' : 'Monitoring Inactive'}
+                      </span>
+                    </div>
+                    {timeRemainingText && isPollingActive && (
+                      <div className="text-xs text-blue-600 dark:text-blue-300 bg-blue-100 dark:bg-blue-800 px-2 py-1 rounded-full">
+                        Next check: {timeRemainingText}
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={manualCheck}
+                      disabled={isChecking}
+                    >
+                      <RefreshCw className={`h-4 w-4 mr-2 ${isChecking ? 'animate-spin' : ''}`} />
+                      {isChecking ? 'Checking...' : 'Check Now'}
+                    </Button>
+                    <SettingsModal />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         )}
 
         {/* Main Content */}

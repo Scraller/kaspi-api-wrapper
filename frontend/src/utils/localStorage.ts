@@ -81,6 +81,9 @@ export function addSubscription(
     productImage?: string;
     priceThreshold?: number;
     merchantName?: string;
+    merchantId?: string;
+    merchantPhone?: string;
+    merchantUrl?: string;
     availability?: 'in_stock' | 'out_of_stock';
     kaspiUrl?: string;
   } = {}
@@ -114,7 +117,21 @@ export function addSubscription(
       lastCheckedPrice: currentPrice,
       priceChange: 'no_change',
       availability: options.availability || 'in_stock',
-      ...options,
+      merchantName: options.merchantName,
+      merchantId: options.merchantId,
+      merchantPhone: options.merchantPhone,
+      merchantUrl: options.merchantUrl,
+      kaspiUrl: options.kaspiUrl,
+      productImage: options.productImage,
+      priceThreshold: options.priceThreshold,
+      priceHistory: [{
+        timestamp: now,
+        price: currentPrice,
+        merchantName: options.merchantName,
+        merchantId: options.merchantId,
+        merchantPhone: options.merchantPhone,
+        merchantUrl: options.merchantUrl
+      }],
     };
     
     const updatedSubscriptions = [...subscriptions, newSubscription];
@@ -147,8 +164,18 @@ export function removeSubscription(productId: string): boolean {
 
 /**
  * Update subscription price and calculate price change
+ * Also stores price history for charting purposes
  */
-export function updateSubscriptionPrice(productId: string, newPrice: number): boolean {
+export function updateSubscriptionPrice(
+  productId: string, 
+  newPrice: number, 
+  merchantInfo?: {
+    name?: string;
+    id?: string;
+    phone?: string;
+    url?: string;
+  }
+): boolean {
   try {
     const subscriptions = getSubscriptions();
     const updatedSubscriptions = subscriptions.map(sub => {
@@ -162,11 +189,34 @@ export function updateSubscriptionPrice(productId: string, newPrice: number): bo
           priceChange = 'decrease';
         }
         
+        // Add to price history if price actually changed
+        const priceHistory = sub.priceHistory || [];
+        if (newPrice !== previousPrice) {
+          priceHistory.push({
+            timestamp: new Date(),
+            price: newPrice,
+            merchantName: merchantInfo?.name || sub.merchantName,
+            merchantId: merchantInfo?.id || sub.merchantId,
+            merchantPhone: merchantInfo?.phone || sub.merchantPhone,
+            merchantUrl: merchantInfo?.url || sub.merchantUrl
+          });
+          
+          // Keep only last 100 entries to prevent localStorage bloat
+          if (priceHistory.length > 100) {
+            priceHistory.shift();
+          }
+        }
+        
         return {
           ...sub,
           currentPrice: newPrice,
           lastCheckedPrice: previousPrice,
           priceChange,
+          priceHistory,
+          merchantName: merchantInfo?.name || sub.merchantName,
+          merchantId: merchantInfo?.id || sub.merchantId,
+          merchantPhone: merchantInfo?.phone || sub.merchantPhone,
+          merchantUrl: merchantInfo?.url || sub.merchantUrl,
         };
       }
       return sub;

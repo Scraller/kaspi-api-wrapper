@@ -36,6 +36,9 @@ interface SubscriptionStore {
       productImage?: string;
       priceThreshold?: number;
       merchantName?: string;
+      merchantId?: string;
+      merchantPhone?: string;
+      merchantUrl?: string;
       availability?: 'in_stock' | 'out_of_stock';
       kaspiUrl?: string;
     }

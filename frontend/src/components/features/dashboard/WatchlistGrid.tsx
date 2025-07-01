@@ -16,8 +16,9 @@ import {
   AlertTriangle
 } from 'lucide-react';
 import { AnonymousSubscription } from '@/types/subscription';
-import { PriceIndicator, PriceChangeBadge } from './PriceIndicator';
-import { PriceRecommendation } from './PriceRecommendation';
+import { PriceChangeBadge } from './PriceIndicator';
+import { ClickablePriceDisplay } from '../charts/ClickablePriceDisplay';
+import { MerchantInfoInline } from '../merchant/MerchantInfo';
 import { formatPrice } from '@/utils/priceUtils';
 import Image from 'next/image';
 import { getOptimizedImageUrl } from '@/utils/imageUtils';
@@ -144,10 +145,29 @@ export function WatchlistGrid({ subscriptions, onRemoveSubscription, isLoading }
 
   /**
    * Handle external link to Kaspi.kz
+   * Prefers stored kaspiUrl, falls back to constructing direct product URL
    */
   const handleExternalLink = (subscription: AnonymousSubscription) => {
-    const kaspiUrl = subscription.kaspiUrl || 
-      `https://kaspi.kz/shop/search/?text=${encodeURIComponent(subscription.productName)}`;
+    let kaspiUrl = subscription.kaspiUrl;
+    
+    // If no kaspiUrl is stored, try to construct a direct product URL
+    if (!kaspiUrl && subscription.productId) {
+      // Construct direct product URL format: https://kaspi.kz/shop/p/{productName}-{productId}/?c=750000000
+      const productSlug = subscription.productName
+        .toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, '') // Remove special characters
+        .replace(/\s+/g, '-') // Replace spaces with hyphens
+        .replace(/-+/g, '-') // Replace multiple hyphens with single
+        .replace(/^-|-$/g, ''); // Remove leading/trailing hyphens
+      
+      kaspiUrl = `https://kaspi.kz/shop/p/${productSlug}-${subscription.productId}/?c=750000000`;
+    }
+    
+    // Final fallback to search if still no URL
+    if (!kaspiUrl) {
+      kaspiUrl = `https://kaspi.kz/shop/search/?text=${encodeURIComponent(subscription.productName)}`;
+    }
+    
     window.open(kaspiUrl, '_blank', 'noopener,noreferrer');
   };
 
@@ -227,8 +247,24 @@ export function WatchlistGrid({ subscriptions, onRemoveSubscription, isLoading }
             const timeRemaining = getTimeRemaining(subscription.expiresAt);
             const isRemoving = removingId === subscription.productId;
             
+            // Calculate price change for border styling
+            const getPriceChangeBorderClass = () => {
+              if (!subscription.lastCheckedPrice || subscription.lastCheckedPrice === subscription.currentPrice) {
+                return 'border-gray-200 dark:border-gray-700'; // No change
+              }
+              
+              if (subscription.currentPrice < subscription.lastCheckedPrice) {
+                return 'border-green-400 dark:border-green-600 shadow-green-100 dark:shadow-green-900/20'; // Price decreased (good)
+              } else {
+                return 'border-red-400 dark:border-red-600 shadow-red-100 dark:shadow-red-900/20'; // Price increased (bad)
+              }
+            };
+            
             return (
-              <Card key={subscription.productId} className="h-full flex flex-col hover:shadow-lg transition-shadow">
+              <Card 
+                key={subscription.productId} 
+                className={`h-full flex flex-col hover:shadow-lg transition-all duration-200 border-2 ${getPriceChangeBorderClass()}`}
+              >
                 {/* Product Image */}
                 <div className="p-4">
                   <div className="relative aspect-square">
@@ -255,21 +291,27 @@ export function WatchlistGrid({ subscriptions, onRemoveSubscription, isLoading }
 
                   {/* Price Information */}
                   <div className="mb-3">
-                    <PriceIndicator 
+                    <ClickablePriceDisplay 
                       subscription={subscription} 
-                      showChange={true}
-                      showPercentage={true}
+                      showTrendIcon={true}
                       size="md"
+                      className="w-full justify-start"
                     />
                   </div>
 
                   {/* Merchant and Availability */}
                   <div className="flex items-center justify-between mb-3">
-                    {subscription.merchantName && (
-                      <span className="text-xs text-gray-600 truncate">
-                        {subscription.merchantName}
-                      </span>
-                    )}
+                    <div className="flex-1 min-w-0">
+                      {subscription.merchantName && (
+                        <MerchantInfoInline
+                          merchantName={subscription.merchantName}
+                          merchantId={subscription.merchantId}
+                          merchantPhone={subscription.merchantPhone}
+                          merchantUrl={subscription.merchantUrl}
+                          className="truncate"
+                        />
+                      )}
+                    </div>
                     <Badge 
                       variant={subscription.availability === 'in_stock' ? 'secondary' : 'outline'}
                       className={subscription.availability === 'in_stock' 
@@ -291,11 +333,6 @@ export function WatchlistGrid({ subscriptions, onRemoveSubscription, isLoading }
                     </div>
                   )}
 
-                  {/* Price Recommendation */}
-                  <div className="mb-3">
-                    <PriceRecommendation subscription={subscription} size="sm" />
-                  </div>
-
                   {/* Time Remaining */}
                   <div className="mb-4">
                     <div className="flex items-center text-xs text-gray-500">
@@ -304,11 +341,6 @@ export function WatchlistGrid({ subscriptions, onRemoveSubscription, isLoading }
                         {timeRemaining.text} remaining
                       </span>
                     </div>
-                  </div>
-
-                  {/* Price Recommendation */}
-                  <div className="mb-4">
-                    <PriceRecommendation subscription={subscription} />
                   </div>
 
                   {/* Actions */}

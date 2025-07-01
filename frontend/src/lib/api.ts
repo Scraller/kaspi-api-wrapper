@@ -1,4 +1,4 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5137';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5147';
 
 export class ApiClient {
   private baseUrl: string;
